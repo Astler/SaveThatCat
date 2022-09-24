@@ -1,11 +1,14 @@
 using System;
-using Bee;
-using Land;
 using UnityEngine;
 
 namespace Cat
 {
-    public class CatView : MonoBehaviour
+    public interface ICatView
+    {
+        void Kill();
+    }
+
+    public class CatView : MonoBehaviour, ICatView
     {
         private Transform _transform;
         
@@ -17,23 +20,7 @@ namespace Cat
         {
             _transform = transform;
         }
-
-        private void OnCollisionEnter2D(Collision2D col)
-        {
-            Debug.Log("hit by " + col.gameObject.name);
-
-            if (col.gameObject.GetComponent<BeeView>())
-            {
-                Died?.Invoke();
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D col)
-        {
-            if (col.GetComponent<WaterView>() != null)
-            {
-                Died?.Invoke();
-            }
-        }
+        
+        public void Kill() => Died?.Invoke();
     }
 }

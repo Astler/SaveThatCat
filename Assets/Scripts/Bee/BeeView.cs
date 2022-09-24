@@ -1,17 +1,16 @@
-using System;
 using System.Collections;
 using Cat;
 using Line;
 using UnityEngine;
+using Utils.Pool;
 using Random = UnityEngine.Random;
 
 namespace Bee
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class BeeView : MonoBehaviour
+    public class BeeView : MonoBehaviour, IPoolElement<IPool<BeeView>>
     {
         [SerializeField] private float moveSpeed = 4f;
-        [SerializeField] private float ignoreCollisionTime = 0.1f;
 
         private Rigidbody2D _rigidbody2D;
         private Transform _target;
@@ -24,6 +23,7 @@ namespace Bee
         private bool _hitSomething;
 
         private Coroutine _moveCoroutine;
+        private IPool<BeeView> _pool;
 
         public void SetTarget(Transform target)
         {
@@ -73,16 +73,17 @@ namespace Bee
                     (-1 * Random.Range(1f, 3f))
                     : _target.position;
             }
-
-            Debug.DrawLine(_transform.position, _targetPosition, Color.cyan, 15f);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             GameObject collisionGameObject = collision.gameObject;
 
-            if (collisionGameObject.GetComponent<CatView>() || collisionGameObject.GetComponent<BeeView>())
+            ICatView cat = collisionGameObject.GetComponent<ICatView>();
+
+            if (cat != null)
             {
+                cat.Kill();
                 return;
             }
 
@@ -113,7 +114,6 @@ namespace Bee
                 while (!_hitSomething)
                 {
                     _rigidbody2D.velocity = _lastDirection * moveSpeed;
-                    Debug.DrawLine(currentPosition, _targetPosition, Color.magenta, 5f);
                     yield return null;
                 }
 
@@ -122,7 +122,6 @@ namespace Bee
             else
             {
                 _rigidbody2D.velocity = _lastDirection * moveSpeed;
-                Debug.DrawLine(currentPosition, _targetPosition, Color.green, 5f);
             }
 
             yield return null;
@@ -136,5 +135,17 @@ namespace Bee
 
             StartMovement();
         }
+
+        public void Spawned(IPool<BeeView> pool) => _pool = pool;
+
+        public void SetActive(bool isActive) => gameObject.SetActive(isActive);
+
+        public void Despawn()
+        {
+            _pool?.Despawn(this);
+            _pool = null;
+        }
+
+        public Transform GetTransform() => _transform;
     }
 }

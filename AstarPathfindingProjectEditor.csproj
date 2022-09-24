@@ -41,28 +41,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/AstarPathfindingProject/Editor/SeekerEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AILerpEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/GraphEditors/GridGeneratorEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AstarUpdateWindow.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/GraphUpdateSceneEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/Legacy/LegacyAIPathEditor2.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AnimationLinkEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/GraphEditors/NavMeshGeneratorEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/CustomGraphEditorAttribute.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AIBaseEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/GraphEditors/GraphEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/ModifierEditors/SmoothModifierEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/ProceduralGridMoverEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/GraphEditors/PointGeneratorEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/ModifierEditors/RaycastModifierEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/Legacy/LegacyEditorHelper2.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AstarPathEditor.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/Editor/AstarUpdateChecker.cs" />
-     <None Include="Assets/AstarPathfindingProject/Editor/AstarPathfindingProjectEditor.asmdef" />
-     <None Include="Assets/AstarPathfindingProject/Editor/EditorAssets/Materials/Navmesh.cginc" />
-     <None Include="Assets/AstarPathfindingProject/Editor/EditorAssets/Materials/NavmeshOutline.shader" />
-     <None Include="Assets/AstarPathfindingProject/Editor/EditorAssets/Materials/Navmesh.shader" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
@@ -988,6 +966,9 @@
       <Project>{edf5f9bf-6bd0-1fee-370e-02ed891c55fb}</Project>
       <Name>PackageToolsEditor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

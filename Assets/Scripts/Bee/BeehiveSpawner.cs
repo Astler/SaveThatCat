@@ -7,7 +7,6 @@ namespace Bee
     {
         [SerializeField] private ProjectContext projectContext;
 
-        [SerializeField] private BeeView beePrefab;
         [SerializeField] private int totalBees = 5;
         [SerializeField] private float spawnDelay = 0.25f;
 
@@ -26,6 +25,7 @@ namespace Bee
             {
                 StopCoroutine(_spawner);
             }
+
             _spawner = StartCoroutine(Spawner());
         }
 
@@ -33,8 +33,9 @@ namespace Bee
         {
             for (int i = 0; i < totalBees; i++)
             {
-                BeeView bee = Instantiate(beePrefab, _transform.position, Quaternion.identity);
-                bee.transform.SetParent(_transform);
+                BeeView bee = projectContext.GetBeesPool().Spawn();
+                Transform beeTransform = bee.GetTransform();
+                beeTransform.position = _transform.position;
                 bee.SetTarget(projectContext.GetBeesTarget());
                 yield return new WaitForSeconds(spawnDelay);
             }

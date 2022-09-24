@@ -125,6 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectContext: {fileID: 0}
-  beePrefab: {fileID: 7530910359534747398, guid: 6c81a89d436bf4f3eb40964bdaf24b67, type: 3}
-  totalBees: 3
+  totalBees: 5
   spawnDelay: 0.25

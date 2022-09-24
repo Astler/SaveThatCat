@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace Line
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(LineRenderer), typeof(PolygonCollider2D))]
     public class LineView : MonoBehaviour
     {
         private LineRenderer _lineRenderer;
+        private PolygonCollider2D _polygonCollider2D;
         private Rigidbody2D _rigidbody2D;
 
         public void UpdateLine(List<Vector2> drawPoints)
@@ -25,6 +26,7 @@ namespace Line
             Vector3[] vertices = lineBakedMesh.vertices;
 
             Dictionary<string, KeyValuePair<int, int>> edges = new();
+
             for (int i = 0; i < triangles.Length; i += 3)
             {
                 for (int e = 0; e < 3; e++)
@@ -32,6 +34,7 @@ namespace Line
                     int vert1 = triangles[i + e];
                     int vert2 = triangles[i + e + 1 > i + 2 ? i : i + e + 1];
                     string edge = Mathf.Min(vert1, vert2) + ":" + Mathf.Max(vert1, vert2);
+
                     if (edges.ContainsKey(edge))
                     {
                         edges.Remove(edge);
@@ -43,59 +46,46 @@ namespace Line
                 }
             }
 
-            // Create edge lookup (Key is first vertex, Value is second vertex, of each edge)
-            Dictionary<int, int> lookup = new Dictionary<int, int>();
-            foreach (KeyValuePair<int, int> edge in edges.Values)
+            Dictionary<int, int> lookup = new();
+            
+            foreach (KeyValuePair<int, int> edge in edges.Values
+                         .Where(edge => lookup.ContainsKey(edge.Key) == false))
             {
-                if (lookup.ContainsKey(edge.Key) == false)
-                {
-                    lookup.Add(edge.Key, edge.Value);
-                }
+                lookup.Add(edge.Key, edge.Value);
             }
 
-            // Create empty polygon collider
-            PolygonCollider2D polygonCollider = gameObject.AddComponent<PolygonCollider2D>();
-            polygonCollider.pathCount = 0;
+            _polygonCollider2D.pathCount = 0;
 
-            // Loop through edge vertices in order
             int startVert = 0;
             int nextVert = startVert;
             int highestVert = startVert;
-            List<Vector2> colliderPath = new List<Vector2>();
+
+            List<Vector2> colliderPath = new();
+
             while (true)
             {
-                // Add vertex to collider path
                 colliderPath.Add(vertices[nextVert]);
-
-                // Get next vertex
                 nextVert = lookup[nextVert];
 
-                // Store highest vertex (to know what shape to move to next)
                 if (nextVert > highestVert)
                 {
                     highestVert = nextVert;
                 }
 
-                // Shape complete
                 if (nextVert == startVert)
                 {
-                    // Add path to polygon collider
-                    polygonCollider.pathCount++;
-                    polygonCollider.SetPath(polygonCollider.pathCount - 1, colliderPath.ToArray());
+                    _polygonCollider2D.pathCount++;
+                    _polygonCollider2D.SetPath(_polygonCollider2D.pathCount - 1, colliderPath.ToArray());
                     colliderPath.Clear();
 
-                    // Go to next shape if one exists
                     if (lookup.ContainsKey(highestVert + 1))
                     {
-                        // Set starting and next vertices
                         startVert = highestVert + 1;
                         nextVert = startVert;
 
-                        // Continue to next loop
                         continue;
                     }
 
-                    // No more verts
                     break;
                 }
             }
@@ -108,6 +98,7 @@ namespace Line
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _polygonCollider2D = GetComponent<PolygonCollider2D>();
             _rigidbody2D.simulated = false;
         }
     }

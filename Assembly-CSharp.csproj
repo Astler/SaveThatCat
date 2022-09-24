@@ -48,6 +48,10 @@
      <Compile Include="Assets/Scripts/ProjectContext.cs" />
      <Compile Include="Assets/Scripts/Bee/BeehiveSpawner.cs" />
      <Compile Include="Assets/Scripts/Bee/BeeView.cs" />
+     <Compile Include="Assets/Scripts/Utils/Pool/IPool.cs" />
+     <Compile Include="Assets/Scripts/Bee/Pool/BeesPool.cs" />
+     <Compile Include="Assets/Scripts/Utils/Pool/IPoolElement.cs" />
+     <Compile Include="Assets/Scripts/Utils/Pool/BasePool.cs" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

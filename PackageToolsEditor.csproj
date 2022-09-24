@@ -41,10 +41,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/AstarPathfindingProject/PackageTools/Editor/EditorGUIx.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/PackageTools/Editor/EditorBase.cs" />
-     <Compile Include="Assets/AstarPathfindingProject/PackageTools/Editor/EnumFlagDrawer.cs" />
-     <None Include="Assets/AstarPathfindingProject/PackageTools/Editor/PackageToolsEditor.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
@@ -966,6 +962,9 @@
       <Project>{4cce8da9-bb48-58de-dd66-27d532df955f}</Project>
       <Name>AstarPathfindingProject</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
